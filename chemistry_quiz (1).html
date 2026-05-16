@@ -1,0 +1,590 @@
+<!DOCTYPE html>
+<html lang="kk">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Жалпы Химия — Емтиханға дайындық</title>
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&family=Nunito+Sans:wght@400;600;700&display=swap" rel="stylesheet">
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --purple:#7c3aed;--purple-light:#ede9fe;--purple-dark:#5b21b6;
+  --green:#059669;--green-light:#d1fae5;
+  --red:#dc2626;--red-light:#fee2e2;
+  --blue:#2563eb;--blue-light:#dbeafe;
+  --amber:#d97706;--amber-light:#fef3c7;
+  --bg:#f5f3ff;--card:#fff;--text:#1e1b4b;--muted:#6b7280;
+  --border:#e5e7eb;--radius:16px;
+}
+body{font-family:'Nunito Sans',sans-serif;background:var(--bg);color:var(--text);min-height:100vh}
+h1,h2,h3,.logo{font-family:'Nunito',sans-serif}
+
+/* MENU */
+#menu{min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:2rem;background:linear-gradient(135deg,#4c1d95 0%,#7c3aed 50%,#a78bfa 100%)}
+.menu-card{background:#fff;border-radius:24px;padding:3rem 2.5rem;max-width:680px;width:100%;box-shadow:0 25px 60px rgba(76,29,149,0.3)}
+.logo{font-size:2.2rem;font-weight:900;color:var(--purple);margin-bottom:.3rem;text-align:center}
+.logo span{color:var(--amber)}
+.subtitle{text-align:center;color:var(--muted);font-size:1rem;margin-bottom:2rem}
+.credit{text-align:center;font-size:.85rem;color:var(--purple);font-weight:700;margin-bottom:2rem;letter-spacing:.5px}
+.topics-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:.75rem;margin-bottom:2rem}
+.topic-btn{background:var(--purple-light);border:2px solid transparent;border-radius:12px;padding:.8rem 1rem;cursor:pointer;font-family:'Nunito',sans-serif;font-weight:700;font-size:.85rem;color:var(--purple-dark);transition:all .2s;text-align:left;display:flex;align-items:center;gap:.5rem}
+.topic-btn:hover{background:var(--purple);color:#fff;transform:translateY(-2px);box-shadow:0 4px 12px rgba(124,58,237,.3)}
+.topic-btn.selected{background:var(--purple);color:#fff;border-color:var(--purple-dark)}
+.topic-btn .count{font-size:.75rem;opacity:.7;margin-left:auto}
+.start-row{display:flex;gap:1rem;flex-wrap:wrap;justify-content:center}
+.btn-start{background:var(--purple);color:#fff;border:none;border-radius:12px;padding:.9rem 2.5rem;font-family:'Nunito',sans-serif;font-weight:800;font-size:1.1rem;cursor:pointer;transition:all .2s}
+.btn-start:hover{background:var(--purple-dark);transform:translateY(-2px);box-shadow:0 6px 20px rgba(124,58,237,.4)}
+.btn-all{background:var(--amber);color:#fff}
+.btn-all:hover{background:#b45309}
+.info-pills{display:flex;gap:.5rem;flex-wrap:wrap;justify-content:center;margin-bottom:1.5rem}
+.pill{background:var(--purple-light);color:var(--purple-dark);border-radius:99px;padding:.3rem .9rem;font-size:.8rem;font-weight:700}
+
+/* QUIZ */
+#quiz{display:none;min-height:100vh;flex-direction:column}
+.quiz-header{background:#fff;border-bottom:1px solid var(--border);padding:1rem 1.5rem;display:flex;align-items:center;gap:1rem;position:sticky;top:0;z-index:100}
+.header-logo{font-family:'Nunito',sans-serif;font-weight:900;font-size:1.2rem;color:var(--purple)}
+.progress-wrap{flex:1;background:var(--border);border-radius:99px;height:8px;overflow:hidden}
+.progress-bar{background:var(--purple);height:100%;border-radius:99px;transition:width .4s ease}
+.score-badge{background:var(--purple-light);color:var(--purple);border-radius:99px;padding:.3rem .8rem;font-weight:700;font-size:.85rem;white-space:nowrap}
+.btn-finish-top{background:var(--red-light);color:var(--red);border:none;border-radius:10px;padding:.4rem 1rem;font-weight:700;font-size:.82rem;cursor:pointer;font-family:'Nunito',sans-serif;transition:all .2s}
+.btn-finish-top:hover{background:var(--red);color:#fff}
+
+.quiz-body{flex:1;padding:2rem 1rem;max-width:780px;margin:0 auto;width:100%}
+.q-counter{font-size:.85rem;color:var(--muted);font-weight:700;margin-bottom:.5rem}
+.q-topic{display:inline-block;background:var(--purple-light);color:var(--purple);border-radius:8px;padding:.2rem .7rem;font-size:.78rem;font-weight:700;margin-bottom:.8rem}
+.q-text{font-size:1.1rem;font-weight:700;color:var(--text);margin-bottom:1.5rem;line-height:1.5;background:#fff;border-radius:16px;padding:1.2rem 1.4rem;border:1.5px solid var(--border);box-shadow:0 2px 8px rgba(0,0,0,.05)}
+.options-grid{display:grid;gap:.75rem;margin-bottom:1.5rem}
+.opt{background:#fff;border:2px solid var(--border);border-radius:12px;padding:1rem 1.2rem;cursor:pointer;font-size:.95rem;font-weight:600;color:var(--text);transition:all .2s;display:flex;align-items:center;gap:.75rem;text-align:left}
+.opt:hover:not(.locked){border-color:var(--purple);background:var(--purple-light);transform:translateY(-1px)}
+.opt .opt-letter{width:32px;height:32px;border-radius:8px;background:var(--purple-light);color:var(--purple);display:flex;align-items:center;justify-content:center;font-weight:800;font-size:.85rem;flex-shrink:0}
+.opt.correct{background:var(--green-light);border-color:var(--green)}
+.opt.correct .opt-letter{background:var(--green);color:#fff}
+.opt.wrong{background:var(--red-light);border-color:var(--red)}
+.opt.wrong .opt-letter{background:var(--red);color:#fff}
+.opt.locked{cursor:default}
+.feedback{border-radius:12px;padding:1rem 1.2rem;margin-bottom:1.5rem;font-weight:700;display:none;align-items:center;gap:.5rem}
+.feedback.show{display:flex}
+.feedback.correct-fb{background:var(--green-light);color:var(--green)}
+.feedback.wrong-fb{background:var(--red-light);color:var(--red)}
+.btn-next{background:var(--purple);color:#fff;border:none;border-radius:12px;padding:.9rem 2.5rem;font-family:'Nunito',sans-serif;font-weight:800;font-size:1rem;cursor:pointer;display:none;transition:all .2s}
+.btn-next:hover{background:var(--purple-dark)}
+.btn-next.show{display:inline-block}
+
+/* RESULTS */
+#results{display:none;min-height:100vh;background:linear-gradient(135deg,#4c1d95,#7c3aed);align-items:center;justify-content:center;padding:2rem}
+.results-card{background:#fff;border-radius:24px;padding:3rem 2.5rem;max-width:600px;width:100%;text-align:center;box-shadow:0 25px 60px rgba(0,0,0,.3)}
+.results-emoji{font-size:4rem;margin-bottom:1rem}
+.results-title{font-size:2rem;font-weight:900;color:var(--purple);margin-bottom:.5rem}
+.score-circle{width:140px;height:140px;border-radius:50%;background:var(--purple);margin:1.5rem auto;display:flex;flex-direction:column;align-items:center;justify-content:center}
+.score-num{font-size:2.5rem;font-weight:900;color:#fff;font-family:'Nunito',sans-serif}
+.score-total{font-size:.9rem;color:rgba(255,255,255,.7)}
+.stats-row{display:grid;grid-template-columns:repeat(3,1fr);gap:1rem;margin:1.5rem 0}
+.stat{background:var(--bg);border-radius:12px;padding:1rem}
+.stat-val{font-size:1.5rem;font-weight:900;font-family:'Nunito',sans-serif}
+.stat-label{font-size:.75rem;color:var(--muted);font-weight:600}
+.stat.g .stat-val{color:var(--green)}
+.stat.r .stat-val{color:var(--red)}
+.stat.b .stat-val{color:var(--blue)}
+.btn-restart{background:var(--purple);color:#fff;border:none;border-radius:12px;padding:.9rem 2.5rem;font-family:'Nunito',sans-serif;font-weight:800;font-size:1.1rem;cursor:pointer;margin-top:1rem;transition:all .2s}
+.btn-restart:hover{background:var(--purple-dark)}
+.topic-breakdown{text-align:left;margin-top:1.5rem}
+.topic-breakdown h3{font-size:.9rem;font-weight:700;color:var(--muted);margin-bottom:.75rem;text-transform:uppercase;letter-spacing:.5px}
+.tb-row{display:flex;align-items:center;gap:.75rem;margin-bottom:.5rem;font-size:.85rem}
+.tb-bar-wrap{flex:1;background:var(--border);border-radius:99px;height:6px}
+.tb-bar{height:100%;border-radius:99px;background:var(--purple);transition:width .6s}
+
+@media(max-width:600px){
+.topics-grid{grid-template-columns:1fr 1fr}
+.q-text{font-size:1rem}
+.opt{font-size:.88rem}
+.stats-row{grid-template-columns:repeat(3,1fr)}
+}
+</style>
+</head>
+<body>
+
+<!-- MAIN MENU -->
+<div id="menu">
+  <div class="menu-card">
+    <div class="logo">⚗️ Жалпы Химия<span>.</span></div>
+    <div class="subtitle">Емтиханға дайындық тесті • 300+ сұрақ</div>
+    <div class="credit">✨ Created by Altynbek</div>
+    <div class="info-pills">
+      <span class="pill">🎯 12 тақырып</span>
+      <span class="pill">📝 300+ сұрақ</span>
+      <span class="pill">✅ Дұрыс жауаптар</span>
+      <span class="pill">📊 Нәтиже</span>
+    </div>
+    <p style="font-size:.85rem;color:var(--muted);margin-bottom:1rem;font-weight:600">Тақырыптарды таңдаңыз немесе барлығын бастаңыз:</p>
+    <div class="topics-grid" id="topicsGrid"></div>
+    <div class="start-row">
+      <button class="btn-start btn-all" onclick="startQuiz('all')">🚀 Барлық сұрақтар</button>
+      <button class="btn-start" onclick="startSelected()">📌 Таңдалғандарды бастау</button>
+    </div>
+  </div>
+</div>
+
+<!-- QUIZ -->
+<div id="quiz" style="display:none;flex-direction:column">
+  <div class="quiz-header">
+    <div class="header-logo">⚗️ Химия</div>
+    <div class="progress-wrap"><div class="progress-bar" id="progressBar"></div></div>
+    <div class="score-badge" id="scoreBadge">0 / 0</div>
+    <button class="btn-finish-top" onclick="finishEarly()">⏹ Аяқтау</button>
+  </div>
+  <div class="quiz-body">
+    <div class="q-counter" id="qCounter"></div>
+    <div class="q-topic" id="qTopic"></div>
+    <div class="q-text" id="qText"></div>
+    <div class="options-grid" id="optionsGrid"></div>
+    <div class="feedback" id="feedback"></div>
+    <button class="btn-next" id="btnNext" onclick="nextQuestion()">Келесі сұрақ →</button>
+  </div>
+</div>
+
+<!-- RESULTS -->
+<div id="results" style="display:none;align-items:center;justify-content:center">
+  <div class="results-card">
+    <div class="results-emoji" id="resEmoji">🎉</div>
+    <div class="results-title">Тест аяқталды!</div>
+    <div class="score-circle">
+      <div class="score-num" id="resPct">0%</div>
+      <div class="score-total" id="resRatio">0 / 0</div>
+    </div>
+    <div class="stats-row">
+      <div class="stat g"><div class="stat-val" id="resCorrect">0</div><div class="stat-label">✅ Дұрыс</div></div>
+      <div class="stat r"><div class="stat-val" id="resWrong">0</div><div class="stat-label">❌ Қате</div></div>
+      <div class="stat b"><div class="stat-val" id="resTotal">0</div><div class="stat-label">📝 Барлығы</div></div>
+    </div>
+    <div class="topic-breakdown" id="topicBreakdown"></div>
+    <button class="btn-restart" onclick="goMenu()">🏠 Басты менюге</button>
+  </div>
+</div>
+
+<script>
+const TOPICS = {
+  "1. Атом құрылысы": [
+    {q:"²⁷₁₃Э атомындағы протон саны қанша?",opts:["13","27","14","8"],ans:0},
+    {q:"²⁷₁₃Э атомындағы нейтрон саны қанша?",opts:["14","13","27","8"],ans:0},
+    {q:"²⁷₁₃Э атомындағы электрон саны қанша?",opts:["13","27","14","8"],ans:0},
+    {q:"²⁷₁₃Э — бұл қандай элемент?",opts:["Алюминий","Темір","Кремний","Азот"],ans:0},
+  ],
+  "2. Бейорганикалық қосылыстар": [
+    {q:"Тек оксидтерден тұратын қатарды көрсетіңіз:",opts:["KOH, CO₂, NaCl, MgO","CaO, SO₂, Al₂O₃, P₂O₅","H₂O, H₂SO₄, NO, BaO","FeO, CuCl₂, Li₂O, K₂O"],ans:1},
+    {q:"Тек қышқылдардан тұратын қатарды анықтаңыз:",opts:["NaOH, HCl, KBr, H₂CO₃","H₂S, NaCl, H₂SiO₃, KOH","HCl, H₂SO₄, HNO₃, H₃PO₄","HNO₂, H₂O, MgCl₂, HBr"],ans:2},
+    {q:"Ерімейтін негіздер орналасқан қатарды белгілеңіз:",opts:["NaOH, KOH, LiOH, Ba(OH)₂","Cu(OH)₂, Fe(OH)₃, Al(OH)₃, Mg(OH)₂","Ca(OH)₂, NH₄OH, Fe(OH)₂, NaOH","Zn(OH)₂, KOH, Ni(OH)₂, LiOH"],ans:1},
+    {q:"Тек негіздерден тұратын қатарды таңдаңыз:",opts:["Al(OH)₃, NaCl, Ba(OH)₂, H₂O","NaOH, Ca(OH)₂, KOH, Fe(OH)₃","LiOH, MgO, Cu(OH)₂, HCl","Zn(OH)₂, K₂SO₄, NaOH, CO₂"],ans:1},
+    {q:"Негіздік оксидтер орналасқан қатарды белгілеңіз:",opts:["Na₂O, CaO, MgO, BaO","SO₃, P₂O₅, Al₂O₃, Li₂O","CO₂, NO, K₂O, FeO","SiO₂, CrO₃, BeO, ZnO"],ans:0},
+    {q:"Тек оттекті қышқылдар орналасқан қатар:",opts:["HCl, HBr, HI, H₂S","H₂SO₄, HNO₃, H₂CO₃, H₃PO₄","HNO₂, HF, H₂SO₃, HCl","HClO₄, H₂S, HNO₃, H₂SiO₃"],ans:1},
+    {q:"Тек тұздардан тұратын қатарды көрсетіңіз:",opts:["BaSO₄, HCl, Na₂O, KOH","AgNO₃, Cu(OH)₂, FeS, MgO","NaCl, K₂SO₄, CaCO₃, AlCl₃","LiBr, H₃PO₄, ZnCl₂, SO₃"],ans:2},
+    {q:"Қышқылдық оксидтер орналасқан қатарды көрсетіңіз:",opts:["CaO, SiO₂, CrO₃, Na₂O","CO₂, SO₂, P₂O₅, N₂O₅","NO₂, SO₃, MgO, Al₂O₃","Cl₂O, BaO, CO, P₂O₃"],ans:1},
+    {q:"Амфотерлі (екідайлы) оксидтер орналасқан қатарды табыңыз:",opts:["Na₂O, MgO, Al₂O₃, CaO","SO₂, NO₂, P₂O₅, ZnO","ZnO, Al₂O₃, BeO, Cr₂O₃","FeO, Fe₂O₃, PbO, Li₂O"],ans:2},
+    {q:"Тек оттексіз қышқылдар орналасқан қатарды көрсетіңіз:",opts:["HNO₃, H₂SO₄, HCl, HF","HCl, HBr, HI, H₂S","H₃PO₄, HBr, HI, H₂CO₃","H₂S, H₂SO₃, HCl, HCN"],ans:1},
+    {q:"Еритін негіздер (сілтілер) орналасқан қатарды таңдаңыз:",opts:["Cu(OH)₂, Al(OH)₃, KOH, Mg(OH)₂","LiOH, NaOH, KOH, Ba(OH)₂","Fe(OH)₃, Zn(OH)₂, NaOH, Ca(OH)₂","LiOH, Ni(OH)₂, Cr(OH)₃, AgOH"],ans:1},
+    {q:"Тек орта тұздар орналасқан қатарды көрсетіңіз:",opts:["NaHCO₃, KHSO₄, NaCl, LiCl","Na₂SO₄, KCl, CaCO₃, Mg(NO₃)₂","Al(OH)Cl₂, K₃PO₄, Na₂CO₃, CaSO₄","ZnCl₂, CuOHCl, MgBr₂, AgNO₃"],ans:1},
+    {q:"Тек екі негізді қышқылдар орналасқан қатарды белгілеңіз:",opts:["HCl, HNO₃, H₃PO₄, H₂SO₃","H₂SO₄, H₂CO₃, H₂S, H₂SiO₃","H₂SO₄, HI, H₂S, HNO₂","H₂CO₃, H₃PO₄, HF, H₂SO₃"],ans:1},
+    {q:"Тек негіздік тұздар орналасқан қатар:",opts:["CuOHCl, (FeOH)₂SO₄, Al(OH)₂Cl, MgOHNO₃","NaCl, CuSO₄, AlCl₃, Zn(OH)₂","NaOH, CuOHCl, Na₂SO₄, BaCl₂","FeOHCl₂, Mg(OH)₂, K₂HPO₄, LiBr"],ans:0},
+    {q:"Тек қышқылдық тұздар орналасқан қатарды табыңыз:",opts:["NaCl, K₂SO₄, LiHCO₃, MgCl₂","NaHCO₃, KHSO₄, NaH₂PO₄, Ca(HS)₂","CaHPO₄, Na₂CO₃, KHSO₃, AlPO₄","NH₄Cl, (NH₄)₂HPO₄, BaSO₄, NaHS"],ans:1},
+    {q:"Тек бір негізді қышқылдар орналасқан қатар:",opts:["H₂SO₄, HCl, HNO₂, HI","HCl, HNO₃, HF, HBr","H₃PO₄, HNO₃, H₂S, HCl","HClO₄, HF, H₂CO₃, HI"],ans:1},
+    {q:"Тек үш негізді қышқылдар кездесетін қатарды табыңыз:",opts:["H₂SO₄, HCl, H₃PO₄, HNO₃","H₃PO₄, H₂CO₃, H₂SiO₃, HI","H₃PO₄, H₃AsO₄, H₃BO₃, H₃SbO₄","H₂S, H₂SO₃, H₃PO₄, HF"],ans:2},
+    {q:"Тек тұз түзбейтін оксидтер орналасқан қатарды көрсетіңіз:",opts:["CO₂, SO₂, P₂O₅, NO","CaO, MgO, Na₂O, N₂O","CO, NO, N₂O, SiO","SiO₂, Al₂O₃, ZnO, CO"],ans:2},
+    {q:"Металл валенттілігі II болатын оксидтер қатарын анықтаңыз:",opts:["Na₂O, K₂O, Li₂O, Ag₂O","MgO, CaO, FeO, CuO","Al₂O₃, Cr₂O₃, Fe₂O₃, B₂O₃","SO₂, CO₂, SiO₂, MnO₂"],ans:1},
+    {q:"Суда жақсы еритін тұздар қатарын таңдаңыз:",opts:["BaSO₄, AgCl, CaCO₃, PbS","NaCl, KNO₃, AgNO₃, NH₄Cl","Na₂CO₃, Mg₃(PO₄)₂, KCl, FeS","LiBr, AlPO₄, ZnSO₄, Ca₃(PO₄)₂"],ans:1},
+  ],
+  "3. Химияның негізгі заңдары": [
+    {q:"Массасы 8 г оттегі (O₂) газының зат мөлшері (моль):",opts:["0.25 моль","0.5 моль","1 моль","2 моль"],ans:0},
+    {q:"Қалыпты жағдайда 5,6 л метан (CH₄) газының зат мөлшері:",opts:["0.5 моль","0.25 моль","1 моль","2 моль"],ans:1},
+    {q:"3 моль судың (H₂O) массасы:",opts:["54 г","36 г","18 г","48 г"],ans:0},
+    {q:"1,204 × 10²³ молекуласы бар CO₂ газының зат мөлшері:",opts:["0.2 моль","0.5 моль","1 моль","2 моль"],ans:0},
+    {q:"Қалыпты жағдайда 2 моль азот (N₂) газының алатын көлемі:",opts:["44,8 л","22,4 л","11,2 л","5,6 л"],ans:0},
+    {q:"Массасы 40 г натрий гидроксидінің (NaOH) зат мөлшері:",opts:["1 моль","2 моль","0.5 моль","4 моль"],ans:0},
+    {q:"0,5 моль күкірт (VI) оксидіндегі (SO₃) молекула саны:",opts:["3,01 × 10²³","6,02 × 10²³","1,5 × 10²³","1,2 × 10²⁴"],ans:0},
+    {q:"Қалыпты жағдайда 11,2 л сутегі (H₂) газының массасы:",opts:["1 г","2 г","0,5 г","4 г"],ans:0},
+    {q:"Массасы 56 г темірдегі (Fe) атом саны:",opts:["6,02 × 10²³","3,01 × 10²³","1,2 × 10²⁴","2,4 × 10²⁴"],ans:0},
+    {q:"0,1 моль күкірт қышқылының (H₂SO₄) массасы:",opts:["9,8 г","19,6 г","4,9 г","98 г"],ans:0},
+    {q:"Қалыпты жағдайда 67,2 л аммиак (NH₃) газының зат мөлшері:",opts:["3 моль","6 моль","1,5 моль","9 моль"],ans:0},
+    {q:"1,5 моль оттегі (O₂) газының қалыпты жағдайда алатын көлемі:",opts:["33,6 л","22,4 л","44,8 л","11,2 л"],ans:0},
+    {q:"5 моль сутегі газының (H₂) массасы:",opts:["10 г","5 г","2 г","20 г"],ans:0},
+    {q:"Массасы 100 г кальций карбонатының (CaCO₃) зат мөлшері:",opts:["1 моль","2 моль","0,5 моль","0,1 моль"],ans:0},
+    {q:"2,408 × 10²⁴ атомы бар мыстың (Cu) зат мөлшері:",opts:["4 моль","2 моль","6 моль","8 моль"],ans:0},
+    {q:"Массасы 16 г метан (CH₄) газының қалыпты жағдайда алатын көлемі:",opts:["22,4 л","11,2 л","44,8 л","5,6 л"],ans:0},
+    {q:"0,2 моль алюминийдің (Al) массасы:",opts:["5,4 г","2,7 г","10,8 г","1,35 г"],ans:0},
+    {q:"Қалыпты жағдайда 4,48 л CO₂ газының массасы:",opts:["8,8 г","4,4 г","17,6 г","22 г"],ans:0},
+    {q:"3,01 × 10²³ су (H₂O) молекуласының массасы:",opts:["9 г","18 г","4,5 г","36 г"],ans:0},
+    {q:"0,5 моль хлор (Cl₂) газының қалыпты жағдайдағы көлемі:",opts:["11,2 л","22,4 л","5,6 л","44,8 л"],ans:0},
+  ],
+  "4. Эквиваленттік масса": [
+    {q:"HNO₃ үшін эквиваленттің молярлық массасы:",opts:["M/1 = 63 г/моль","M/2 = 31,5 г/моль","M/3 = 21 г/моль","M/4 = 15,75 г/моль"],ans:0},
+    {q:"Ca(OH)₂ үшін эквиваленттің молярлық массасы:",opts:["M/1 = 74 г/моль","M/2 = 37 г/моль","M/3 = 24,7 г/моль","M/4 = 18,5 г/моль"],ans:1},
+    {q:"AlCl₃ үшін эквиваленттің молярлық массасы:",opts:["M/3 = 44,4 г/моль","M/2 = 66,6 г/моль","M/1 = 133,3 г/моль","M/4 = 33,3 г/моль"],ans:0},
+    {q:"HCl үшін эквиваленттің молярлық массасы:",opts:["M/1 = 36,5 г/моль","M/2 = 18,25 г/моль","M/3 = 12,2 г/моль","M/4 = 9,1 г/моль"],ans:0},
+    {q:"Mg(OH)₂ үшін эквиваленттің молярлық массасы:",opts:["M/2 = 29 г/моль","M/1 = 58 г/моль","M/3 = 19,3 г/моль","M/4 = 14,5 г/моль"],ans:0},
+    {q:"Fe₂(SO₄)₃ үшін эквиваленттің молярлық массасы:",opts:["M/6 = 66,7 г/моль","M/2 = 200 г/моль","M/3 = 133,3 г/моль","M/4 = 100 г/моль"],ans:0},
+    {q:"H₂SO₄ үшін эквиваленттің молярлық массасы:",opts:["M/2 = 49 г/моль","M/1 = 98 г/моль","M/3 = 32,7 г/моль","M/4 = 24,5 г/моль"],ans:0},
+    {q:"NaOH үшін эквиваленттің молярлық массасы:",opts:["M/1 = 40 г/моль","M/2 = 20 г/моль","M/3 = 13,3 г/моль","M/4 = 10 г/моль"],ans:0},
+    {q:"Na₃PO₄ үшін эквиваленттің молярлық массасы:",opts:["M/3 = 54,7 г/моль","M/1 = 164 г/моль","M/2 = 82 г/моль","M/4 = 41 г/моль"],ans:0},
+    {q:"H₃PO₄ үшін эквиваленттің молярлық массасы:",opts:["M/3 = 32,7 г/моль","M/1 = 98 г/моль","M/2 = 49 г/моль","M/4 = 24,5 г/моль"],ans:0},
+    {q:"KOH үшін эквиваленттің молярлық массасы:",opts:["M/1 = 56 г/моль","M/2 = 28 г/моль","M/3 = 18,7 г/моль","M/4 = 14 г/моль"],ans:0},
+    {q:"BaCl₂ үшін эквиваленттің молярлық массасы:",opts:["M/2 = 104 г/моль","M/1 = 208 г/моль","M/3 = 69,3 г/моль","M/4 = 52 г/моль"],ans:0},
+    {q:"H₂CO₃ үшін эквиваленттің молярлық массасы:",opts:["M/2 = 31 г/моль","M/1 = 62 г/моль","M/3 = 20,7 г/моль","M/4 = 15,5 г/моль"],ans:0},
+    {q:"LiOH үшін эквиваленттің молярлық массасы:",opts:["M/1 = 24 г/моль","M/2 = 12 г/моль","M/3 = 8 г/моль","M/4 = 6 г/моль"],ans:0},
+    {q:"CrCl₃ үшін эквиваленттің молярлық массасы:",opts:["M/3 = 52,6 г/моль","M/2 = 79 г/моль","M/1 = 158,5 г/моль","M/4 = 39,6 г/моль"],ans:0},
+    {q:"HClO₄ үшін эквиваленттің молярлық массасы:",opts:["M/1 = 100,5 г/моль","M/2 = 50,25 г/моль","M/3 = 33,5 г/моль","M/4 = 25,1 г/моль"],ans:0},
+    {q:"Ba(OH)₂ үшін эквиваленттің молярлық массасы:",opts:["M/2 = 85,7 г/моль","M/1 = 171,4 г/моль","M/3 = 57,1 г/моль","M/4 = 42,85 г/моль"],ans:0},
+    {q:"K₂CO₃ үшін эквиваленттің молярлық массасы:",opts:["M/2 = 69 г/моль","M/1 = 138 г/моль","M/3 = 46 г/моль","M/4 = 34,5 г/моль"],ans:0},
+    {q:"H₂S үшін эквиваленттің молярлық массасы:",opts:["M/2 = 17 г/моль","M/1 = 34 г/моль","M/3 = 11,3 г/моль","M/4 = 8,5 г/моль"],ans:0},
+    {q:"Cr(OH)₃ үшін эквиваленттің молярлық массасы:",opts:["M/3 = 34,3 г/моль","M/1 = 103 г/моль","M/2 = 51,5 г/моль","M/4 = 25,75 г/моль"],ans:0},
+  ],
+  "5. Периодтық жүйе": [
+    {q:"IIА топ металдары (сілтілік-жер металдар):",opts:["Li, Na, K, Rb","Be, Mg, Ca, Sr, Ba","B, Al, Ga, In","Cu, Ag, Au"],ans:1},
+    {q:"IIIА топ элементтері:",opts:["B, Al, Ga, In, Tl","N, P, As, Sb","C, Si, Ge, Sn","F, Cl, Br, I"],ans:0},
+    {q:"IVА топ элементтері:",opts:["N, P, As, Sb, Bi","O, S, Se, Te","C, Si, Ge, Sn, Pb","B, Al, Ga, In"],ans:2},
+    {q:"VА топ элементтері:",opts:["F, Cl, Br, I, At","N, P, As, Sb, Bi","O, S, Se, Te, Po","C, Si, Ge, Sn, Pb"],ans:1},
+    {q:"VIА топ элементтері (халькогендер):",opts:["N, P, As, Sb","F, Cl, Br, I","O, S, Se, Te, Po","He, Ne, Ar, Kr"],ans:2},
+    {q:"VIIА топ элементтері (галогендер):",opts:["O, S, Se, Te","F, Cl, Br, I, At","He, Ne, Ar, Kr","N, P, As, Sb"],ans:1},
+    {q:"VIIIА топ элементтері (инертті газдар):",opts:["F, Cl, Br, I","He, Ne, Ar, Kr, Xe, Rn","O, S, Se, Te","Li, Na, K, Rb"],ans:1},
+    {q:"IБ топ металдары:",opts:["Zn, Cd, Hg","Cu, Ag, Au","Fe, Co, Ni","Sc, Y, La"],ans:1},
+    {q:"IIБ топ металдары:",opts:["Cu, Ag, Au","Zn, Cd, Hg","Fe, Co, Ni","Mn, Tc, Re"],ans:1},
+    {q:"Тек қана p-элементтерден тұратын қатар:",opts:["Li, Be, B, C","N, O, F, Ne, Na","B, C, N, O, F, Ne","Fe, Co, Ni, Cu"],ans:2},
+    {q:"Тек қана s-элементтерден тұратын қатар:",opts:["Na, Mg, Al, Si","H, He, Li, Be, Na","B, C, N, O","Fe, Ni, Co, Cu"],ans:1},
+    {q:"Тек қана d-элементтерден тұратын қатар:",opts:["Na, K, Ca, Sc","Fe, Co, Ni, Cu, Zn","B, C, N, Si","Cl, Br, I, At"],ans:1},
+    {q:"Галогендер тобына жататын элементтері бар қатар:",opts:["O, S, Se, Te, Po","F, Cl, Br, I, At","He, Ne, Ar, Kr, Xe","Li, Na, K, Rb, Cs"],ans:1},
+    {q:"Сілтілік металдар тобына жататын элементтер:",opts:["Be, Mg, Ca, Sr, Ba","Li, Na, K, Rb, Cs, Fr","Cu, Ag, Au","Zn, Cd, Hg"],ans:1},
+    {q:"VIII топтың қосымша топшасындағы металдар:",opts:["Sc, Y, La","Fe, Co, Ni; Ru, Rh, Pd; Os, Ir, Pt","Cu, Ag, Au","Zn, Cd, Hg"],ans:1},
+  ],
+  "6. Химиялық термодинамика (Гесс заңы)": [
+    {q:"CH₄(г) + 2O₂(г) → CO₂(г) + 2H₂O(с) реакциясының энтальпиясы:",opts:["ΔH = ΔHf(CO₂) + 2ΔHf(H₂O) − ΔHf(CH₄)","ΔH = ΔHf(CH₄) + 2ΔHf(O₂)","ΔH = ΔHf(CH₄) − ΔHf(CO₂)","ΔH = 2ΔHf(H₂O) − ΔHf(CH₄)"],ans:0},
+    {q:"2H₂(г) + O₂(г) → 2H₂O(г) реакциясының энтальпиясы:",opts:["ΔH = 2ΔHf(H₂O)","ΔH = 2ΔHf(H₂O) − 2ΔHf(H₂) − ΔHf(O₂)","ΔH = ΔHf(H₂) + ΔHf(O₂)","ΔH = ΔHf(H₂O) − ΔHf(H₂)"],ans:1},
+    {q:"CaCO₃(қ) → CaO(қ) + CO₂(г) реакциясының энтальпиясы:",opts:["ΔH = ΔHf(CaO) + ΔHf(CO₂) − ΔHf(CaCO₃)","ΔH = ΔHf(CaCO₃) − ΔHf(CaO)","ΔH = ΔHf(CO₂) − ΔHf(CaCO₃)","ΔH = ΔHf(CaO) − ΔHf(CaCO₃)"],ans:0},
+    {q:"N₂(г) + 3H₂(г) → 2NH₃(г) реакциясының энтальпиясы:",opts:["ΔH = ΔHf(N₂) + 3ΔHf(H₂)","ΔH = 2ΔHf(NH₃)","ΔH = 2ΔHf(NH₃) − ΔHf(N₂) − 3ΔHf(H₂)","ΔH = ΔHf(NH₃) − ΔHf(H₂)"],ans:1},
+    {q:"2CO(г) + O₂(г) → 2CO₂(г) реакциясының энтальпиясы:",opts:["ΔH = 2ΔHf(CO₂) − 2ΔHf(CO)","ΔH = 2ΔHf(CO) + ΔHf(O₂)","ΔH = ΔHf(CO₂) − ΔHf(CO)","ΔH = ΔHf(CO₂) + ΔHf(O₂)"],ans:0},
+    {q:"Fe₂O₃(қ) + 3CO(г) → 2Fe(қ) + 3CO₂(г) реакциясының энтальпиясы:",opts:["ΔH = 3ΔHf(CO₂) − ΔHf(Fe₂O₃) − 3ΔHf(CO)","ΔH = ΔHf(Fe₂O₃) + 3ΔHf(CO)","ΔH = 2ΔHf(Fe) + 3ΔHf(CO₂)","ΔH = ΔHf(CO₂) − ΔHf(CO)"],ans:0},
+    {q:"2SO₂(г) + O₂(г) → 2SO₃(г) реакциясының энтальпиясы:",opts:["ΔH = 2ΔHf(SO₃) − 2ΔHf(SO₂)","ΔH = 2ΔHf(SO₂) + ΔHf(O₂)","ΔH = ΔHf(SO₃) − ΔHf(SO₂)","ΔH = ΔHf(SO₃) + ΔHf(SO₂)"],ans:0},
+    {q:"CuO(қ) + H₂(г) → Cu(қ) + H₂O(г) реакциясының энтальпиясы:",opts:["ΔH = ΔHf(H₂O) − ΔHf(CuO)","ΔH = ΔHf(CuO) + ΔHf(H₂)","ΔH = ΔHf(Cu) + ΔHf(H₂O) − ΔHf(CuO)","ΔH = ΔHf(CuO) − ΔHf(H₂O)"],ans:0},
+    {q:"H₂(г) + Cl₂(г) → 2HCl(г) реакциясының энтальпиясы:",opts:["ΔH = 2ΔHf(HCl)","ΔH = ΔHf(H₂) + ΔHf(Cl₂)","ΔH = ΔHf(HCl) − ΔHf(Cl₂)","ΔH = 2ΔHf(HCl) − ΔHf(H₂) − ΔHf(Cl₂)"],ans:3},
+    {q:"CaO(қ) + H₂O(с) → Ca(OH)₂(қ) реакциясының энтальпиясы:",opts:["ΔH = ΔHf(Ca(OH)₂) − ΔHf(CaO) − ΔHf(H₂O)","ΔH = ΔHf(CaO) + ΔHf(H₂O)","ΔH = ΔHf(Ca(OH)₂) + ΔHf(H₂O)","ΔH = ΔHf(CaO) − ΔHf(Ca(OH)₂)"],ans:0},
+  ],
+  "7. Химиялық кинетика": [
+    {q:"2SO₂(г) + O₂(г) → 2SO₃(г) реакциясының жылдамдық теңдеуі:",opts:["v = k·[SO₂]²·[O₂]","v = k·[SO₂]·[O₂]","v = k·[SO₃]²","v = k·[SO₂]²"],ans:0},
+    {q:"N₂(г) + 3H₂(г) → 2NH₃(г) реакциясы үшін жылдамдық теңдеуі:",opts:["v = k·[N₂]·[H₂]","v = k·[N₂]·[H₂]³","v = k·[NH₃]²","v = k·[N₂]²·[H₂]"],ans:1},
+    {q:"H₂(г) + I₂(г) → 2HI(г) гомогенді реакциясының кинетикалық теңдеуі:",opts:["v = k·[H₂]·[I₂]","v = k·[H₂]²·[I₂]","v = k·[HI]²","v = k·[H₂]·[I₂]²"],ans:0},
+    {q:"C(қ) + H₂O(г) → CO(г) + H₂(г) гетерогенді реакциясының жылдамдық теңдеуі:",opts:["v = k·[C]·[H₂O]","v = k·[H₂O]","v = k·[CO]·[H₂]","v = k·[C]²·[H₂O]"],ans:1},
+    {q:"2NO(г) + O₂(г) → 2NO₂(г) реакциясының жылдамдық теңдеуі:",opts:["v = k·[NO]·[O₂]","v = k·[NO]²·[O₂]","v = k·[NO₂]²","v = k·[NO]²"],ans:1},
+    {q:"N₂O₄(г) → 2NO₂(г) ыдырау реакциясының кинетикалық теңдеуі:",opts:["v = k·[NO₂]²","v = k·[N₂O₄]","v = k·[N₂O₄]²","v = k·[NO₂]"],ans:1},
+    {q:"CO₂(г) + C(қ) → 2CO(г) реакциясы үшін жылдамдық теңдеуі:",opts:["v = k·[CO₂]·[C]","v = k·[CO₂]","v = k·[CO]²","v = k·[CO₂]²"],ans:1},
+    {q:"PCl₅(г) → PCl₃(г) + Cl₂(г) реакциясының жылдамдық теңдеуі:",opts:["v = k·[PCl₃]·[Cl₂]","v = k·[PCl₅]","v = k·[PCl₅]²","v = k·[Cl₂]"],ans:1},
+    {q:"2CO(г) + O₂(г) → 2CO₂(г) реакциясының кинетикалық өрнегі:",opts:["v = k·[CO]²·[O₂]","v = k·[CO]·[O₂]","v = k·[CO₂]²","v = k·[CO]²"],ans:0},
+    {q:"CH₄(г) + 2O₂(г) → CO₂(г) + 2H₂O(г) реакциясының жылдамдық теңдеуі:",opts:["v = k·[CH₄]·[O₂]","v = k·[CH₄]·[O₂]²","v = k·[CO₂]·[H₂O]²","v = k·[CH₄]²·[O₂]"],ans:1},
+    {q:"CaCO₃(қ) → CaO(қ) + CO₂(г) гетерогенді ыдырау реакциясының жылдамдық теңдеуі:",opts:["v = k·[CaCO₃]·[CO₂]","v = k (тұрақты)","v = k·[CO₂]","v = k·[CaO]·[CO₂]"],ans:1},
+    {q:"N₂(г) + O₂(г) → 2NO(г) реакциясының кинетикалық теңдеуі:",opts:["v = k·[N₂]·[O₂]","v = k·[NO]²","v = k·[N₂]²·[O₂]","v = k·[N₂]·[O₂]²"],ans:0},
+    {q:"2H₂S(г) + 3O₂(г) → 2H₂O(г) + 2SO₂(г) реакциясының жылдамдық теңдеуі:",opts:["v = k·[H₂S]²·[O₂]³","v = k·[H₂S]·[O₂]","v = k·[H₂S]²","v = k·[O₂]³"],ans:0},
+    {q:"CO(г) + 2H₂(г) → CH₃OH(г) реакциясының кинетикалық теңдеуі:",opts:["v = k·[CO]·[H₂]","v = k·[CO]·[H₂]²","v = k·[CH₃OH]","v = k·[CO]²·[H₂]"],ans:1},
+    {q:"2O₃(г) → 3O₂(г) реакциясы үшін жылдамдық теңдеуі:",opts:["v = k·[O₃]²","v = k·[O₂]³","v = k·[O₃]","v = k·[O₂]"],ans:0},
+    {q:"FeO(қ) + CO(г) → Fe(қ) + CO₂(г) реакциясының жылдамдық теңдеуі:",opts:["v = k·[FeO]·[CO]","v = k·[CO]","v = k·[CO]²","v = k·[Fe]·[CO₂]"],ans:1},
+    {q:"2H₂(г) + O₂(г) → 2H₂O(г) реакциясының кинетикалық теңдеуі:",opts:["v = k·[H₂]²·[O₂]","v = k·[H₂]·[O₂]","v = k·[H₂O]²","v = k·[H₂]²"],ans:0},
+    {q:"NH₃(г) + HCl(г) → NH₄Cl(қ) реакциясының жылдамдық теңдеуі:",opts:["v = k·[NH₃]·[HCl]","v = k·[NH₄Cl]","v = k·[NH₃]²","v = k·[HCl]²"],ans:0},
+    {q:"4NH₃(г) + 5O₂(г) → 4NO(г) + 6H₂O(г) реакциясының жылдамдық теңдеуі:",opts:["v = k·[NH₃]⁴·[O₂]⁵","v = k·[NH₃]·[O₂]","v = k·[NO]⁴·[H₂O]⁶","v = k·[NH₃]⁴"],ans:0},
+  ],
+  "8. Химиялық тепе-теңдік": [
+    {q:"2SO₂(г)+O₂(г)⇌2SO₃(г)+Q жүйесінде температура көтергенде тепе-теңдік қайда ығысады?",opts:["Оңға, SO₃ түзілу бағытына","Солға, бастапқы заттар бағытына","Ығыспайды","Жүйедегі қысым төмендейді"],ans:1},
+    {q:"H₂(г)+I₂(г)⇌2HI(г)−Q жүйесінде қысымды арттырса, тепе-теңдік қалай өзгереді?",opts:["Оңға ығысады","Солға ығысады","Тепе-теңдік ығыспайды","Реакция тоқтайды"],ans:2},
+    {q:"2NO(г)+O₂(г)⇌2NO₂(г)+Q жүйесінде O₂ концентрациясын арттырса, тепе-теңдік қайда ығысады?",opts:["Солға, бастапқы заттар бағытына","Оңға, NO₂ түзілу бағытына","Тепе-теңдік бұзылмайды","Қысым азаяды"],ans:1},
+    {q:"N₂(г)+3H₂(г)⇌2NH₃(г)+Q реакциясында аммиак шығымын арттыру үшін:",opts:["Қысымды төмендету және температураны арттыру","Қысымды арттыру және температураны төмендету","Катализатор қосу және қысымды төмендету","Тек температураны арттыру"],ans:1},
+    {q:"C(қ)+H₂O(г)⇌CO(г)+H₂(г)−Q реакциясында температураны төмендетсе:",opts:["Тепе-теңдік оңға ығысады","Тепе-теңдік солға ығысады","Ешқандай өзгеріс болмайды","CO мөлшері артады"],ans:1},
+    {q:"N₂O₄(г)⇌2NO₂(г)−Q реакциясында қысымды төмендеткенде тепе-теңдік:",opts:["Оңға, газ молекулаларының саны көп жаққа","Солға, газ молекулаларының саны аз жаққа","Өзгеріс болмайды","Реакция тоқтайды"],ans:0},
+    {q:"FeCl₃+3KSCN⇌Fe(SCN)₃+3KCl жүйесіне FeCl₃ қосса:",opts:["Тепе-теңдік солға ығысады, түссізденеді","Тепе-теңдік оңға ығысады, ерітінді түсі қанығады","Ығысу болмайды","Температура төмендейді"],ans:1},
+    {q:"CO₂(г)+C(қ)⇌2CO(г)−Q жүйесінде CO концентрациясын азайтса:",opts:["Тепе-теңдік оңға ығысады","Тепе-теңдік солға ығысады","Реакция тоқтайды","Қысым артады"],ans:0},
+    {q:"PCl₅(г)⇌PCl₃(г)+Cl₂(г)−Q реакциясында температураны арттырудың әсері:",opts:["Хлордың шығымы төмендейді","Тепе-теңдік оңға, эндотермиялық бағытқа ығысады","Тепе-теңдік солға ығысады","Қысым азаяды"],ans:1},
+    {q:"2CO(г)+O₂(г)⇌2CO₂(г)+Q реакциясында қысымды арттыру тепе-теңдікті қайда ығыстырады?",opts:["Солға, газ көлемі артатын жаққа","Оңға, газ көлемі азаятын жаққа","Ығыспайды","Оттегінің мөлшері азаяды"],ans:1},
+    {q:"CaCO₃(қ)⇌CaO(қ)+CO₂(г)−Q реакциясында CO₂ шығымын арттыру үшін:",opts:["Температураны арттырып, қысымды төмендету","Температураны төмендетіп, қысымды арттыру","Тек CaO мөлшерін көбейту","Катализатор қосу"],ans:0},
+    {q:"2H₂S(г)+3O₂(г)⇌2H₂O(г)+2SO₂(г)+Q жүйесін суытса тепе-теңдіктің ығысу бағыты:",opts:["Тепе-теңдік оңға ығысады","Тепе-теңдік солға ығысады","SO₂ шығымы артады","Қысым бірден көтеріледі"],ans:0},
+    {q:"CO(г)+2H₂(г)⇌CH₃OH(г)+Q реакциясында қысымды арттырса тепе-теңдік:",opts:["Солға ығысады","Оңға, метил спирті түзілу бағытына","Молекулалар саны артатын жаққа","Ығысу болмайды"],ans:1},
+    {q:"NH₄Cl(қ)⇌NH₃(г)+HCl(г)−Q жүйесінде температураны көтергенде:",opts:["Тұздың мөлшері көбейеді","Тепе-теңдік оңға ығысып, газдар мөлшері артады","Тепе-теңдік солға ығысады","Қысым төмендейді"],ans:1},
+    {q:"2O₃(г)⇌3O₂(г)+Q реакциясында қысымды төмендетсе:",opts:["Тепе-теңдік солға ығысады","Тепе-теңдік оңға, көлем артатын жаққа ығысады","Ығысу болмайды","Температура бірден көтеріледі"],ans:1},
+    {q:"N₂+O₂⇌2NO−Q реакциясында қысымды төмендетсе, тепе-теңдіктің ығысу бағыты:",opts:["Тепе-теңдік оңға ығысады","Тепе-теңдік солға ығысады","Тепе-теңдік ығыспайды","NO шығымы артады"],ans:2},
+    {q:"H₂(г)+S(қ)⇌H₂S(г)+Q реакциясында H₂S концентрациясын арттырса:",opts:["Тепе-теңдік солға ығысады","Тепе-теңдік оңға ығысады","Сутегі мөлшері азаяды","Қысым төмендейді"],ans:0},
+    {q:"2H₂(г)+O₂(г)⇌2H₂O(с)+Q жүйесінде қысымды арттырса тепе-теңдік:",opts:["Солға, бастапқы газдар жағына","Оңға, газ көлемі азаятын жаққа","Ығыспайды","Температура төмендейді"],ans:1},
+    {q:"Kc өрнегі: 2H₂(г)+O₂(г)⇌2H₂O(г)",opts:["Kc = [H₂O]² / ([H₂]²·[O₂])","Kc = [H₂]²·[O₂] / [H₂O]²","Kc = [H₂O] / ([H₂]·[O₂])","Kc = [H₂]·[O₂] / [H₂O]"],ans:0},
+    {q:"Kc өрнегі: N₂(г)+3H₂(г)⇌2NH₃(г)",opts:["Kc = [NH₃]² / ([N₂]·[H₂]³)","Kc = [N₂]·[H₂]³ / [NH₃]²","Kc = [NH₃] / ([N₂]·[H₂])","Kc = [N₂]·[H₂] / [NH₃]"],ans:0},
+    {q:"Kc өрнегі: 2SO₂(г)+O₂(г)⇌2SO₃(г)",opts:["Kc = [SO₃]² / ([SO₂]²·[O₂])","Kc = [SO₂]²·[O₂] / [SO₃]²","Kc = [SO₃] / ([SO₂]·[O₂])","Kc = [SO₂]·[O₂] / [SO₃]"],ans:0},
+    {q:"Kc өрнегі: H₂(г)+I₂(г)⇌2HI(г)",opts:["Kc = [HI]² / ([H₂]·[I₂])","Kc = [H₂]·[I₂] / [HI]²","Kc = [HI] / ([H₂]·[I₂])","Kc = [H₂]·[I₂] / [HI]"],ans:0},
+    {q:"Kc өрнегі: CaCO₃(қ)⇌CaO(қ)+CO₂(г)",opts:["Kc = [CaO]·[CO₂] / [CaCO₃]","Kc = [CO₂]","Kc = 1 / [CO₂]","Kc = [CaCO₃] / [CO₂]"],ans:1},
+    {q:"Kc өрнегі: 2NO₂(г)⇌N₂O₄(г)",opts:["Kc = [N₂O₄] / [NO₂]²","Kc = [NO₂]² / [N₂O₄]","Kc = [N₂O₄]² / [NO₂]","Kc = [NO₂] / [N₂O₄]"],ans:0},
+  ],
+  "9. Ерітінді концентрациясы": [
+    {q:"AlCl₃-тің 500 мл 0,1 М ерітіндісін жасауға қажет тұз массасы (M(AlCl₃)=133,3):",opts:["6,665 г","13,33 г","3,33 г","26,66 г"],ans:0},
+    {q:"NaOH-тің 250 мл 0,2 М ерітіндісін жасауға қажет масса (M=40):",opts:["2 г","4 г","1 г","8 г"],ans:0},
+    {q:"CuSO₄-тің 100 мл 0,5 М ерітіндісін жасауға қажет масса (M=160):",opts:["8 г","16 г","4 г","32 г"],ans:0},
+    {q:"KCl-дің 200 мл 0,1 М ерітіндісін жасауға қажет масса (M=74,5):",opts:["1,49 г","2,98 г","0,745 г","5,96 г"],ans:0},
+    {q:"Na₂CO₃-тің 500 мл 0,5 М ерітіндісін жасауға қажет масса (M=106):",opts:["26,5 г","53 г","13,25 г","106 г"],ans:0},
+    {q:"BaCl₂-дің 1000 мл 0,1 М ерітіндісін жасауға қажет масса (M=208):",opts:["20,8 г","41,6 г","10,4 г","83,2 г"],ans:0},
+    {q:"AgNO₃-тің 500 мл 0,05 М ерітіндісін жасауға қажет масса (M=170):",opts:["4,25 г","8,5 г","2,125 г","17 г"],ans:0},
+    {q:"ZnSO₄-тің 500 мл 0,1 М ерітіндісін жасауға қажет масса (M=161):",opts:["8,05 г","16,1 г","4,025 г","32,2 г"],ans:0},
+    {q:"Натрий карбонатының 200 г 15%-дық ерітіндісіндегі тұз массасы:",opts:["30 г","15 г","45 г","60 г"],ans:0},
+    {q:"Натрий карбонатының 200 г 15%-дық ерітіндісіндегі су массасы:",opts:["170 г","185 г","155 г","140 г"],ans:0},
+    {q:"KCl-дің 500 г 10%-дық ерітіндісіндегі тұз массасы:",opts:["50 г","100 г","25 г","75 г"],ans:0},
+    {q:"CaCl₂-нің 400 г 20%-дық ерітіндісіндегі тұз массасы:",opts:["80 г","160 г","40 г","120 г"],ans:0},
+    {q:"MgSO₄-тің 250 г 8%-дық ерітіндісіндегі тұз массасы:",opts:["20 г","40 г","10 г","5 г"],ans:0},
+    {q:"KNO₃-тің 600 г 15%-дық ерітіндісіндегі тұз массасы:",opts:["90 г","180 г","45 г","60 г"],ans:0},
+    {q:"NaNO₃-тің 100 мл 2 М ерітіндісін жасауға қажет масса (M=85):",opts:["17 г","34 г","8,5 г","85 г"],ans:0},
+  ],
+  "10. Электролиттер": [
+    {q:"Күшті электролиттер қатары:",opts:["H₂O, CH₃COOH, NH₄OH","H₂SiO₃, Fe(OH)₃, CaCO₃","HCl, Ba(OH)₂, KNO₃","H₂S, Cu(OH)₂, BaSO₄"],ans:2},
+    {q:"Әлсіз электролиттер қатары:",opts:["HCl, NaOH, KCl","HNO₃, KOH, NaNO₃","H₂S, NH₄OH, HNO₂","H₂SO₄, LiOH, BaCl₂"],ans:2},
+    {q:"Күшті электролиттерге жататын қосылыстар тобы:",opts:["HF, NH₄OH, AgCl","HI, NaOH, Mg(NO₃)₂","H₂CO₃, Cu(OH)₂, BaSO₄","H₂SO₃, Fe(OH)₃, CaCO₃"],ans:1},
+    {q:"Тек әлсіз электролиттер көрсетілген қатар:",opts:["H₂SO₄, NaOH, KCl","H₃PO₄, Mg(OH)₂, H₂SO₃","HNO₃, KOH, NaNO₃","HCl, LiOH, NaCl"],ans:1},
+    {q:"Күшті электролиттерге жататын қышқыл, негіз және тұз қатары:",opts:["H₂CO₃, NH₄OH, AgCl","HNO₃, KOH, CaCl₂","CH₃COOH, Cu(OH)₂, Na₂SO₄","HF, Mg(OH)₂, BaSO₄"],ans:1},
+    {q:"Тек күшті электролиттер қатары:",opts:["LiOH, H₂SO₄, Na₃PO₄","NH₄OH, H₂CO₃, CaCO₃","Fe(OH)₂, HNO₂, AgCl","Al(OH)₃, H₃PO₄, BaSO₄"],ans:0},
+    {q:"Барлық қосылыстары күшті электролит болатын қатар:",opts:["H₂O, NH₄OH, CH₃COOH","NaCl, AgNO₃, HCl","CaCO₃, H₂S, Fe(OH)₃","BaSO₄, H₂CO₃, Cu(OH)₂"],ans:1},
+    {q:"Диссоциациялану дәрежесі 30%-дан жоғары болатын қатар:",opts:["HNO₂, NH₄OH, K₂CO₃","H₂S, Fe(OH)₂, NaCl","HBr, LiOH, Na₂SO₄","H₂CO₃, Cu(OH)₂, AgNO₃"],ans:2},
+    {q:"Күшті сілтілер мен олардың тұздарынан тұратын қатар:",opts:["NH₄OH, NH₄Cl, (NH₄)₂SO₄","Cu(OH)₂, CuCl₂, CuSO₄","NaOH, NaCl, Na₂SO₄","Fe(OH)₃, FeCl₃, Fe₂(SO₄)₃"],ans:2},
+    {q:"Сулы ерітіндіде иондарға толық ыдырайтын заттар жиынтығы:",opts:["H₂SO₃, Mg(OH)₂, AgCl","HClO₄, CsOH, K₂SO₄","HF, NH₄OH, CaCO₃","HNO₂, Cu(OH)₂, BaSO₄"],ans:1},
+    {q:"Тек күшті негіздер мен тұздар берілген қатар:",opts:["NH₄OH, NaCl, HCl","NaOH, K₂CO₃, Ba(NO₃)₂","Cu(OH)₂, CuSO₄, H₂SO₄","Al(OH)₃, AlCl₃, HNO₃"],ans:1},
+    {q:"Әлсіз қышқылдар көрсетілген қатар:",opts:["HCl, HBr, HI","H₂SO₄, HNO₃, HClO₄","CH₃COOH, HCN, HNO₂","HCl, H₂SO₄, HNO₃"],ans:2},
+    {q:"Күшті негіздердің қатары:",opts:["Fe(OH)₃, Cu(OH)₂, Al(OH)₃","KOH, NaOH, LiOH","NH₄OH, Zn(OH)₂, Mg(OH)₂","Cr(OH)₃, Be(OH)₂, Ni(OH)₂"],ans:1},
+    {q:"Диссоциациялану дәрежесі 3%-дан төмен болатын электролиттер қатары:",opts:["H₂CO₃, NH₄OH, H₂S","HCl, NaOH, NaCl","HNO₃, KOH, KNO₃","H₂SO₄, Ba(OH)₂, Na₂SO₄"],ans:0},
+    {q:"Ерітіндіде толық ионданатын күшті қышқылдар қатары:",opts:["HCl, HNO₃, H₂SO₄","H₂SO₃, H₃PO₄, HF","CH₃COOH, H₂S, H₂CO₃","HNO₂, HClO, H₂SiO₃"],ans:0},
+    {q:"Тек әлсіз негіздер мен әлсіз қышқылдардан тұратын қатар:",opts:["NaOH, HCl, KOH","Ba(OH)₂, HNO₃, H₂SO₄","Cu(OH)₂, H₂S, NH₄OH","LiOH, HI, Ca(OH)₂"],ans:2},
+    {q:"Күшті электролитке жататын тұздар қатары:",opts:["AgCl, BaSO₄, CaCO₃","Na₂SO₄, KCl, Ba(NO₃)₂","PbCl₂, CuS, Hg₂Cl₂","MgCO₃, Fe(OH)₂, AlPO₄"],ans:1},
+    {q:"Тек күшті электролиттерден тұратын заттар жиынтығы:",opts:["H₂CO₃, NH₄OH, AgCl","CH₃COOH, KOH, CaCO₃","H₂SO₄, NaOH, BaCl₂","HNO₂, Ca(OH)₂, Na₂SO₄"],ans:2},
+    {q:"Барлық компоненттері әлсіз электролит болатын қатар:",opts:["HCl, KOH, NaCl","H₂S, NH₄OH, H₂CO₃","HNO₃, Ba(OH)₂, KNO₃","H₂SO₄, NaOH, Na₂SO₄"],ans:1},
+  ],
+  "11. Иондық теңдеулер": [
+    {q:"H⁺ + OH⁻ = H₂O қысқаша иондық теңдеуіне сәйкес молекулалық теңдеу:",opts:["NaOH + AgNO₃ = AgOH + NaNO₃","KOH + HNO₃ = KNO₃ + H₂O","Cu(OH)₂ + 2HCl = CuCl₂ + 2H₂O","Fe(OH)₃ + 3HCl = FeCl₃ + 3H₂O"],ans:1},
+    {q:"Ba²⁺ + SO₄²⁻ = BaSO₄ қысқаша иондық теңдеуіне сәйкес молекулалық теңдеу:",opts:["Ba(OH)₂ + H₂SO₄ = BaSO₄ + 2H₂O","BaCl₂ + Na₂SO₄ = BaSO₄ + 2NaCl","BaCO₃ + H₂SO₄ = BaSO₄ + H₂O + CO₂","BaO + H₂SO₄ = BaSO₄ + H₂O"],ans:1},
+    {q:"Ag⁺ + Cl⁻ = AgCl қысқаша иондық теңдеуіне сәйкес молекулалық теңдеу:",opts:["Ag₂O + 2HCl = 2AgCl + H₂O","AgNO₃ + KClO₃ = AgClO₃ + KNO₃","Ag₂SO₄ + BaCl₂ = 2AgCl + BaSO₄","AgNO₃ + NaCl = AgCl + NaNO₃"],ans:3},
+    {q:"CO₃²⁻ + 2H⁺ = CO₂ + H₂O қысқаша иондық теңдеуіне сәйкес молекулалық теңдеу:",opts:["CO₂ + Ca(OH)₂ = CaCO₃ + H₂O","MgCO₃ + H₂SO₄ = MgSO₄ + CO₂ + H₂O","NaHCO₃ + HCl = NaCl + CO₂ + H₂O","K₂CO₃ + 2HCl = 2KCl + CO₂ + H₂O"],ans:3},
+    {q:"Cu²⁺ + S²⁻ = CuS иондық теңдеуіне сәйкес молекулалық теңдеу:",opts:["Cu + S = CuS","CuO + H₂S = CuS + H₂O","CuSO₄ + Na₂S = CuS + Na₂SO₄","Cu(OH)₂ + H₂S = CuS + 2H₂O"],ans:2},
+    {q:"Fe³⁺ + 3OH⁻ = Fe(OH)₃ қысқаша иондық теңдеуіне сәйкес молекулалық теңдеу:",opts:["Fe(NO₃)₃ + 3H₂O = Fe(OH)₃ + 3HNO₃","Fe₂(SO₄)₃ + 6KOH = 2Fe(OH)₃ + 3K₂SO₄","FeCl₃ + 3NaOH = Fe(OH)₃ + 3NaCl","FeO + NaOH = Fe(OH)₂ + Na₂O"],ans:2},
+    {q:"Pb²⁺ + 2I⁻ = PbI₂ қысқаша иондық теңдеуіне сәйкес молекулалық теңдеу:",opts:["PbCl₂ + 2NaI = PbI₂ + 2NaCl","Pb(NO₃)₂ + 2KI = PbI₂ + 2KNO₃","PbO + 2HI = PbI₂ + H₂O","Pb(CH₃COO)₂ + 2HI = PbI₂ + 2CH₃COOH"],ans:1},
+    {q:"3Ca²⁺ + 2PO₄³⁻ = Ca₃(PO₄)₂ иондық теңдеуіне сәйкес молекулалық теңдеу:",opts:["3CaO + 2H₃PO₄ = Ca₃(PO₄)₂ + 3H₂O","Ca₃(PO₄)₂ + 6HCl = 3CaCl₂ + 2H₃PO₄","3CaCl₂ + 2Na₃PO₄ = Ca₃(PO₄)₂ + 6NaCl","3Ca(OH)₂ + 2H₃PO₄ = Ca₃(PO₄)₂ + 6H₂O"],ans:2},
+    {q:"Mg²⁺ + CO₃²⁻ = MgCO₃ қысқаша иондық теңдеуіне сәйкес молекулалық теңдеу:",opts:["Mg(OH)₂ + CO₂ = MgCO₃ + H₂O","MgO + CO₂ = MgCO₃","MgSO₄ + K₂CO₃ = MgCO₃ + K₂SO₄","MgCl₂ + CaCO₃ = MgCO₃ + CaCl₂"],ans:2},
+    {q:"Zn²⁺ + 2OH⁻ = Zn(OH)₂ қысқаша иондық теңдеуіне сәйкес молекулалық теңдеу:",opts:["Zn + 2H₂O = Zn(OH)₂ + H₂","ZnSO₄ + 2NaOH = Zn(OH)₂ + Na₂SO₄","ZnO + H₂O = Zn(OH)₂","ZnCl₂ + 2H₂O = Zn(OH)₂ + 2HCl"],ans:1},
+    {q:"S²⁻ + 2H⁺ = H₂S қысқаша иондық теңдеуіне сәйкес молекулалық теңдеу:",opts:["H₂ + S = H₂S","FeS + 2HCl = FeCl₂ + H₂S","Na₂S + 2HCl = 2NaCl + H₂S","K₂S + H₂SO₄ = K₂SO₄ + H₂S"],ans:2},
+    {q:"3Ag⁺ + PO₄³⁻ = Ag₃(PO₄) қысқаша иондық теңдеуіне сәйкес молекулалық теңдеу:",opts:["3AgOH + H₃PO₄ = Ag₃PO₄ + 3H₂O","Ag₂O + P₂O₅ = Ag₃PO₄","3AgNO₃ + Na₃PO₄ = Ag₃PO₄ + 3NaNO₃","Ag₃PO₄ + 3HNO₃ = 3AgNO₃ + H₃PO₄"],ans:2},
+    {q:"Al³⁺ + 3OH⁻ = Al(OH)₃ қысқаша иондық теңдеуіне сәйкес молекулалық теңдеу:",opts:["Al + 3NaOH = Na₃AlO₃ + H₂","Na[Al(OH)₄] + HCl = Al(OH)₃ + NaCl + H₂O","AlCl₃ + 3KOH = Al(OH)₃ + 3KCl","Al₂O₃ + 3H₂O = 2Al(OH)₃"],ans:2},
+    {q:"Ca²⁺ + CO₃²⁻ = CaCO₃ қысқаша иондық теңдеуіне сәйкес молекулалық теңдеу:",opts:["CaO + CO₂ = CaCO₃","Ca(HCO₃)₂ + Ca(OH)₂ = 2CaCO₃ + 2H₂O","CaCl₂ + Na₂CO₃ = CaCO₃ + 2NaCl","Ca(NO₃)₂ + K₂CO₃ = CaCO₃ + 2KNO₃"],ans:2},
+    {q:"Cu²⁺ + 2OH⁻ = Cu(OH)₂ қысқаша иондық теңдеуіне сәйкес молекулалық теңдеу:",opts:["CuO + H₂O = Cu(OH)₂","CuCl₂ + Ca(OH)₂ = Cu(OH)₂ + CaCl₂","CuSO₄ + 2KOH = Cu(OH)₂ + K₂SO₄","Cu(NO₃)₂ + 2NaOH = Cu(OH)₂ + 2NaNO₃"],ans:2},
+    {q:"Fe²⁺ + 2OH⁻ = Fe(OH)₂ қысқаша иондық теңдеуіне сәйкес молекулалық теңдеу:",opts:["FeSO₄ + 2NaOH = Fe(OH)₂ + Na₂SO₄","FeCl₂ + 2KOH = Fe(OH)₂ + 2KCl","Fe(NO₃)₂ + Ba(OH)₂ = Fe(OH)₂ + Ba(NO₃)₂","FeO + H₂O = Fe(OH)₂"],ans:0},
+    {q:"NH₄⁺ + OH⁻ = NH₃ + H₂O иондық теңдеуіне сәйкес молекулалық теңдеу:",opts:["2NH₄NO₃ + Ca(OH)₂ = Ca(NO₃)₂ + 2NH₃ + 2H₂O","NH₃ + H₂O = NH₄OH","NH₄Cl + NaOH = NaCl + NH₃ + H₂O","NH₄OH + HCl = NH₄Cl + H₂O"],ans:2},
+    {q:"SO₃²⁻ + 2H⁺ = SO₂ + H₂O иондық теңдеуіне сәйкес молекулалық теңдеу:",opts:["CaSO₃ + 2HCl = CaCl₂ + SO₂ + H₂O","Na₂SO₃ + 2HCl = 2NaCl + SO₂ + H₂O","K₂SO₃ + H₂SO₄ = K₂SO₄ + SO₂ + H₂O","SO₂ + H₂O = H₂SO₃"],ans:1},
+    {q:"2H⁺ + SiO₃²⁻ = H₂SiO₃ қысқаша иондық теңдеуіне сәйкес молекулалық теңдеу:",opts:["SiO₂ + H₂O = H₂SiO₃","K₂SiO₃ + H₂SO₄ = K₂SO₄ + H₂SiO₃","Na₂SiO₃ + 2HCl = 2NaCl + H₂SiO₃","CaSiO₃ + 2HCl = CaCl₂ + H₂SiO₃"],ans:2},
+    {q:"Ba²⁺ + CO₃²⁻ = BaCO₃ қысқаша иондық теңдеуіне сәйкес молекулалық теңдеу:",opts:["Ba(OH)₂ + CO₂ = BaCO₃ + H₂O","BaCl₂ + Na₂CO₃ = BaCO₃ + 2NaCl","Ba(NO₃)₂ + K₂CO₃ = BaCO₃ + 2KNO₃","BaO + CO₂ = BaCO₃"],ans:1},
+  ],
+  "12. Тұздар гидролизі және pH": [
+    {q:"ZnCl₂ гидролизденетін ион және ерітінді ортасы:",opts:["Анион бойынша, сілтілік","Катион бойынша, қышқылдық","Катион мен анион бойынша, бейтарап","Гидролизденбейді, бейтарап"],ans:1},
+    {q:"K₂CO₃ гидролизденетін ион және ерітінді ортасы:",opts:["Катион бойынша, қышқылдық","Анион бойынша, сілтілік","Гидролизденбейді","Катион мен анион бойынша"],ans:1},
+    {q:"LiNO₃ тұзы гидролизденеді ме?",opts:["Ия, катион бойынша","Ия, анион бойынша","Жоқ, гидролизденбейді (күшті негіз + күшті қышқыл)","Ия, екі жаққа да"],ans:2},
+    {q:"CH₃COONH₄ тұзы гидролизінің сипаты:",opts:["Катион бойынша, қышқылдық орта","Анион бойынша, сілтілік орта","Катион мен анион бойынша, pH≈7","Гидролизденбейді"],ans:2},
+    {q:"Cu(NO₃)₂ тұзы — катион бойынша гидролизденеді, өйткені:",opts:["Cu(OH)₂ — күшті негіз","Cu(OH)₂ — әлсіз негіз (ерімейтін)","HNO₃ — әлсіз қышқыл","Барлық нитраттар гидролизденеді"],ans:1},
+    {q:"NaNO₂ тұзы гидролизінің нәтижесі:",opts:["Қышқылдық орта, pH < 7","Бейтарап орта, pH = 7","Сілтілік орта, pH > 7","Гидролизденбейді"],ans:2},
+    {q:"KNO₃ тұзының ерітіндіснің pH мәні:",opts:["pH < 7","pH > 7","pH = 7","pH = 0"],ans:2},
+    {q:"[H⁺] = 10⁻² моль/л болса, pH мәні қандай?",opts:["pH = 2","pH = 12","pH = 7","pH = -2"],ans:0},
+    {q:"[OH⁻] = 10⁻⁴ моль/л болса, pH мәні:",opts:["pH = 4","pH = 10","pH = 7","pH = 14"],ans:1},
+    {q:"[H⁺] = 10⁻⁷ моль/л, ерітінді ортасы:",opts:["Қышқылдық","Сілтілік","Бейтарап","Анықтау мүмкін емес"],ans:2},
+    {q:"pOH = 11 болса, pH = ?",opts:["pH = 3","pH = 11","pH = 7","pH = 1"],ans:0},
+    {q:"[OH⁻] = 10⁻¹³ моль/л болса, pH мәні:",opts:["pH = 13","pH = 1","pH = 7","pH = 0"],ans:1},
+    {q:"[H⁺] = 10⁻⁹ моль/л, ерітінді ортасы:",opts:["Қышқылдық","Бейтарап","Сілтілік","Анықтау мүмкін емес"],ans:2},
+    {q:"[OH⁻] = 10⁻⁹ моль/л болса, pH = ?",opts:["pH = 9","pH = 5","pH = 7","pH = 14"],ans:1},
+    {q:"pOH = 7 болса, pH = ?",opts:["pH = 7","pH = 14","pH = 0","pH = 1"],ans:0},
+    {q:"[H⁺] = 10⁻¹² моль/л, ерітінді ортасы:",opts:["Қышқылдық","Бейтарап","Сілтілік","pH = 2"],ans:2},
+    {q:"[OH⁻] = 10⁻² моль/л болса, pH = ?",opts:["pH = 2","pH = 12","pH = 7","pH = 10"],ans:1},
+    {q:"[H⁺] = 10⁻⁴ моль/л, pH = ? және орта:",opts:["pH = 4, қышқылдық","pH = 10, сілтілік","pH = 7, бейтарап","pH = 4, сілтілік"],ans:0},
+    {q:"pOH = 4 болса, pH = ?",opts:["pH = 4","pH = 10","pH = 7","pH = 14"],ans:1},
+    {q:"[H⁺] = 10⁻¹¹ моль/л, pH және орта:",opts:["pH = 11, сілтілік","pH = 3, қышқылдық","pH = 7, бейтарап","pH = 11, қышқылдық"],ans:0},
+    {q:"[OH⁻] = 10⁻¹ моль/л болса, pH = ?",opts:["pH = 1","pH = 13","pH = 7","pH = 14"],ans:1},
+  ],
+  "13-15. ТТР, Гальвани, Коррозия": [
+    {q:"Fe²⁺ → Fe³⁺ үдерісі кезінде темір ионы:",opts:["1 электрон береді (тотығады)","1 электрон қосып алады (тотықсызданады)","2 электрон береді","3 электрон береді"],ans:0},
+    {q:"Cl₂⁰ → 2Cl⁻ үдерісі кезінде хлор молекуласы:",opts:["Электрон береді (тотығады)","Электрон қосып алады (тотықсызданады)","Тотықпайды да, тотықсызданбайды да","2 электрон береді"],ans:1},
+    {q:"Mn⁷⁺ → Mn²⁺ үдерісінде марганец атомы:",opts:["5 электрон береді","5 электрон қосып алады (тотықсызданады)","7 электрон береді","2 электрон қосып алады"],ans:1},
+    {q:"S²⁻ → S⁰ үдерісінде күкірт ионы:",opts:["2 электрон қосып алады","2 электрон береді (тотығады)","1 электрон береді","6 электрон береді"],ans:1},
+    {q:"Cr⁶⁺ → Cr³⁺ үдерісінде хром атомы:",opts:["3 электрон береді","3 электрон қосып алады (тотықсызданады)","6 электрон қосып алады","6 электрон береді"],ans:1},
+    {q:"Cu⁰ → Cu²⁺ үдерісінде мыс атомы:",opts:["2 электрон береді (тотығады)","2 электрон қосып алады","1 электрон береді","3 электрон береді"],ans:0},
+    {q:"Al⁰ → Al³⁺ үдерісінде алюминий атомы:",opts:["3 электрон қосып алады","3 электрон береді (тотығады)","2 электрон береді","1 электрон береді"],ans:1},
+    {q:"Fe⁰ → Fe²⁺ үдерісінде темір атомы:",opts:["2 электрон қосып алады","2 электрон береді (тотығады)","3 электрон береді","1 электрон береді"],ans:1},
+    {q:"Pb⁴⁺ → Pb²⁺ үдерісінде қорғасын ионы:",opts:["2 электрон береді","2 электрон қосып алады (тотықсызданады)","4 электрон қосып алады","6 электрон береді"],ans:1},
+    {q:"Cu және Ag жұбынан тұратын гальвани элементте анод:",opts:["Ag, себебі потенциалы жоғары","Cu, себебі потенциалы төмен (белсендірек)","Екеуі де анод","Екеуі де катод"],ans:1},
+    {q:"Zn (E⁰=-0,76В) және Cu (E⁰=+0,34В) гальвани элементінің ЭҚК:",opts:["1,10 В","0,42 В","0,76 В","0,34 В"],ans:0},
+    {q:"Темір (Fe) мен мыс (Cu) жанасқанда коррозияға бірінші ұшырайтын металл:",opts:["Мыс (Cu)","Темір (Fe)","Екеуі бірдей","Ешқайсысы"],ans:1},
+    {q:"Темір (Fe) мен мырыш (Zn) жұбында коррозия барысында сақталып қалатын металл:",opts:["Мырыш (Zn)","Темір (Fe)","Екеуі де сақталады","Екеуі де бұзылады"],ans:1},
+    {q:"Темір (Fe) мен алюминий (Al) контактісінде анод қызметін атқарып, бірінші бұзылатын металл:",opts:["Темір (Fe)","Алюминий (Al)","Екеуі бірдей","Ешқайсысы бұзылмайды"],ans:1},
+    {q:"Темір (Fe) мен қалайы (Sn) ылғалды ортада болса, анод болатын металл:",opts:["Қалайы (Sn)","Темір (Fe), себебі Е⁰(Fe)=-0,44В, Е⁰(Sn)=-0,14В","Екеуі бірдей","Анод болмайды"],ans:1},
+    {q:"Хромдалған темір бұйымында хром қабаты бүлінгенде бірінші бұзылатын металл (E⁰Cr=-0,74В, E⁰Fe=-0,44В):",opts:["Хром (Cr), себебі потенциалы төмен","Темір (Fe)","Екеуі бірдей бұзылады","Ешқайсысы"],ans:0},
+    {q:"Никель (Ni) мен мыс (Cu) жұбында коррозияға ұшырайтын металл:",opts:["Мыс (Cu)","Никель (Ni), себебі E⁰(Ni)=-0,25В < E⁰(Cu)=+0,34В","Екеуі бірдей","Ешқайсысы"],ans:1},
+    {q:"Мырышпен қапталған (Fe) және қалайымен қапталған (Fe) темірдің қайсысы сызылғанда коррозияға төзімдірек?",opts:["Қалайымен қапталған","Мырышпен қапталған, өйткені Zn — анод, Fe-ны қорғайды","Екеуі бірдей","Ешқайсысы коррозияланбайды"],ans:1},
+  ],
+  "16. Электролиз": [
+    {q:"KCl сулы ерітіндісін электролиздегенде катодта түзілетін зат:",opts:["Cl₂","H₂","K","O₂"],ans:1},
+    {q:"KCl сулы ерітіндісін электролиздегенде анодта түзілетін зат:",opts:["K","H₂","Cl₂","O₂"],ans:2},
+    {q:"AgNO₃ сулы ерітіндісін электролиздегенде катодта түзілетін зат:",opts:["H₂","N₂","Ag","NO₂"],ans:2},
+    {q:"AgNO₃ сулы ерітіндісін электролиздегенде анодта түзілетін зат:",opts:["Ag","NO₂","H₂","O₂"],ans:3},
+    {q:"Na₂SO₄ сулы ерітіндісін электролиздегенде катодта түзілетін зат:",opts:["Na","SO₄","H₂","O₂"],ans:2},
+    {q:"Na₂SO₄ сулы ерітіндісін электролиздегенде анодта түзілетін зат:",opts:["Na","SO₄","H₂","O₂"],ans:3},
+    {q:"CuSO₄ сулы ерітіндісін электролиздегенде катодта түзілетін зат:",opts:["H₂","SO₄","Cu","O₂"],ans:2},
+    {q:"CuSO₄ сулы ерітіндісін электролиздегенде анодта түзілетін зат:",opts:["Cu","SO₄","H₂","O₂"],ans:3},
+    {q:"AuCl₃ сулы ерітіндісін электролиздегенде катодта түзілетін зат:",opts:["H₂","Cl₂","Au","O₂"],ans:2},
+    {q:"AuCl₃ сулы ерітіндісін электролиздегенде анодта түзілетін зат:",opts:["Au","H₂","Cl₂","O₂"],ans:2},
+    {q:"KBr сулы ерітіндісін электролиздегенде анодта түзілетін зат:",opts:["K","H₂","Br₂","O₂"],ans:2},
+    {q:"MgCl₂ сулы ерітіндісін электролиздегенде катодта түзілетін зат:",opts:["Mg","Cl₂","H₂","O₂"],ans:2},
+    {q:"ZnSO₄ сулы ерітіндісін электролиздегенде катодта түзілетін зат:",opts:["H₂","Zn","SO₃","O₂"],ans:1},
+    {q:"NiCl₂ сулы ерітіндісін электролиздегенде катодта:",opts:["H₂","Cl₂","Ni","O₂"],ans:2},
+    {q:"Ca(NO₃)₂ сулы ерітіндісін электролиздегенде катодта:",opts:["Ca","NO₂","H₂","O₂"],ans:2},
+    {q:"Ca(NO₃)₂ сулы ерітіндісін электролиздегенде анодта:",opts:["Ca","NO₃","H₂","O₂"],ans:3},
+    {q:"NaI сулы ерітіндісін электролиздегенде анодта:",opts:["Na","H₂","I₂","O₂"],ans:2},
+    {q:"Al₂(SO₄)₃ сулы ерітіндісін электролиздегенде катодта:",opts:["Al","H₂","SO₃","O₂"],ans:1},
+    {q:"Cu(NO₃)₂ сулы ерітіндісін электролиздегенде катодта:",opts:["H₂","NO₂","Cu","O₂"],ans:2},
+    {q:"BaCl₂ сулы ерітіндісін электролиздегенде катодта:",opts:["Ba","Cl₂","H₂","O₂"],ans:2},
+  ]
+};
+
+let questions = [];
+let current = 0;
+let score = 0;
+let answered = false;
+let topicStats = {};
+let selectedTopics = new Set();
+
+function buildTopicsGrid(){
+  const grid = document.getElementById('topicsGrid');
+  Object.entries(TOPICS).forEach(([name, qs])=>{
+    const btn = document.createElement('button');
+    btn.className = 'topic-btn';
+    btn.innerHTML = `<span>${name}</span><span class="count">${qs.length}</span>`;
+    btn.onclick = ()=>{
+      if(selectedTopics.has(name)){selectedTopics.delete(name);btn.classList.remove('selected')}
+      else{selectedTopics.add(name);btn.classList.add('selected')}
+    };
+    grid.appendChild(btn);
+  });
+}
+
+function shuffle(arr){return arr.sort(()=>Math.random()-0.5)}
+
+function startQuiz(mode){
+  let pool = [];
+  if(mode==='all'){
+    Object.entries(TOPICS).forEach(([topic,qs])=>{
+      qs.forEach(q=>pool.push({...q,topic}));
+      topicStats[topic]={correct:0,total:qs.length};
+    });
+  } else {
+    if(selectedTopics.size===0){alert('Тақырып таңдаңыз!');return;}
+    selectedTopics.forEach(topic=>{
+      TOPICS[topic].forEach(q=>pool.push({...q,topic}));
+      topicStats[topic]={correct:0,total:TOPICS[topic].length};
+    });
+  }
+  questions = shuffle(pool);
+  current = 0; score = 0;
+  document.getElementById('menu').style.display='none';
+  document.getElementById('quiz').style.display='flex';
+  showQuestion();
+}
+
+function startSelected(){startQuiz('selected')}
+
+function showQuestion(){
+  const q = questions[current];
+  const total = questions.length;
+  document.getElementById('qCounter').textContent = `Сұрақ ${current+1} / ${total}`;
+  document.getElementById('qTopic').textContent = q.topic;
+  document.getElementById('qText').textContent = q.q;
+  document.getElementById('progressBar').style.width = ((current/total)*100)+'%';
+  document.getElementById('scoreBadge').textContent = `${score} / ${current}`;
+  const opts = document.getElementById('optionsGrid');
+  opts.innerHTML='';
+  const letters=['A','B','C','D'];
+  const shuffled = q.opts.map((o,i)=>({o,i}));
+  // keep original order for correct answer tracking
+  shuffled.forEach((item,idx)=>{
+    const div = document.createElement('div');
+    div.className='opt';
+    div.innerHTML=`<span class="opt-letter">${letters[idx]}</span><span>${item.o}</span>`;
+    div.onclick=()=>selectAnswer(idx, item.i===q.ans, div);
+    opts.appendChild(div);
+  });
+  document.getElementById('feedback').className='feedback';
+  document.getElementById('feedback').textContent='';
+  document.getElementById('btnNext').className='btn-next';
+  answered=false;
+}
+
+function selectAnswer(idx, isCorrect, el){
+  if(answered) return;
+  answered=true;
+  const opts = document.querySelectorAll('.opt');
+  const q = questions[current];
+  // find correct display index
+  let correctDisplayIdx = q.ans; // since we're not shuffling options
+  opts.forEach((o,i)=>{
+    o.classList.add('locked');
+    // The option at position i corresponds to q.opts[i] since we keep order
+    if(i===q.ans) o.classList.add('correct');
+  });
+  const fb = document.getElementById('feedback');
+  if(isCorrect){
+    el.classList.add('correct');
+    score++;
+    topicStats[q.topic].correct++;
+    fb.className='feedback correct-fb show';
+    fb.textContent='✅ Дұрыс жауап!';
+  } else {
+    el.classList.add('wrong');
+    fb.className='feedback wrong-fb show';
+    fb.textContent=`❌ Қате. Дұрыс жауап: ${q.opts[q.ans]}`;
+  }
+  document.getElementById('btnNext').className='btn-next show';
+}
+
+function nextQuestion(){
+  current++;
+  if(current>=questions.length){showResults();return;}
+  showQuestion();
+}
+
+function finishEarly(){
+  if(confirm('Тестті аяқтауға сенімдісіз бе?')) showResults();
+}
+
+function showResults(){
+  document.getElementById('quiz').style.display='none';
+  const res = document.getElementById('results');
+  res.style.display='flex';
+  const total = current;
+  const pct = total>0?Math.round((score/total)*100):0;
+  document.getElementById('resPct').textContent=pct+'%';
+  document.getElementById('resRatio').textContent=`${score} / ${total}`;
+  document.getElementById('resCorrect').textContent=score;
+  document.getElementById('resWrong').textContent=total-score;
+  document.getElementById('resTotal').textContent=total;
+  let emoji='🎉';
+  if(pct>=90) emoji='🏆';
+  else if(pct>=70) emoji='👍';
+  else if(pct>=50) emoji='📚';
+  else emoji='💪';
+  document.getElementById('resEmoji').textContent=emoji;
+
+  // topic breakdown
+  const bd = document.getElementById('topicBreakdown');
+  let html='<h3>Тақырыптар бойынша нәтиже</h3>';
+  Object.entries(topicStats).forEach(([topic,s])=>{
+    if(s.total===0) return;
+    const p = Math.round((s.correct/s.total)*100);
+    html+=`<div class="tb-row"><span style="font-size:.78rem;min-width:180px;color:var(--text)">${topic}</span><div class="tb-bar-wrap"><div class="tb-bar" style="width:${p}%"></div></div><span style="font-size:.78rem;font-weight:700;min-width:60px;text-align:right">${s.correct}/${s.total}</span></div>`;
+  });
+  bd.innerHTML=html;
+}
+
+function goMenu(){
+  document.getElementById('results').style.display='none';
+  document.getElementById('menu').style.display='flex';
+  topicStats={};
+  selectedTopics=new Set();
+  document.querySelectorAll('.topic-btn').forEach(b=>b.classList.remove('selected'));
+}
+
+buildTopicsGrid();
+</script>
+</body>
+</html>
